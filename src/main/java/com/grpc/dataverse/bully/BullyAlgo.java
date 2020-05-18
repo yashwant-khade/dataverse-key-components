@@ -32,7 +32,7 @@ public class BullyAlgo implements Runnable{
     static int ok_ctr=0;
     static long  start_time_ok=-1;
     static HashSet<String> files= new HashSet<>();
-    static String FOLDER_PATH = "F:\\275\\output1\\";
+    static String FOLDER_PATH = "F:\\275\\server1\\";
 
     public BullyAlgo(String operation) {
         this.operation = operation;
@@ -50,11 +50,11 @@ public class BullyAlgo implements Runnable{
      */
     public static void main(String args[]) throws UnknownHostException, IOException, InterruptedException{
         initialize();
-        Server server = ServerBuilder.forPort(50051)
+        Server server = ServerBuilder.forPort(55110)
 //				.maxInboundMessageSize(FILE_SPLIT_UNIT)
 //				.maxInboundMetadataSize(Integer.MAX_VALUE)
-                .addService(new FileService())
-
+                .addService(new FileService1())
+                .addService(new MessageService())
                 .build();
 
         server.start();
@@ -380,11 +380,13 @@ public class BullyAlgo implements Runnable{
             File folder = new File(FOLDER_PATH);
             File[] listOfFiles = folder.listFiles();
 
-            for (int i = 0; i < listOfFiles.length; i++) {
-                if (listOfFiles[i].isFile()) {
-                    files.add(listOfFiles[i].getName());
-                } else if (listOfFiles[i].isDirectory()) {
-    //                System.out.println("Directory " + listOfFiles[i].getName());
+            if (listOfFiles != null) {
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile()) {
+                        files.add(listOfFiles[i].getName());
+                    } else if (listOfFiles[i].isDirectory()) {
+                        //                System.out.println("Directory " + listOfFiles[i].getName());
+                    }
                 }
             }
         } catch (Exception e) {

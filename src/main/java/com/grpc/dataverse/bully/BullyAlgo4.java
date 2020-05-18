@@ -6,6 +6,7 @@ import io.grpc.ServerBuilder;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -31,7 +32,7 @@ public class BullyAlgo4 implements Runnable{
     static int ok_ctr=0;
     static long  start_time_ok=-1;
     static HashSet<String> files= new HashSet<>();
-    static String FOLDER_PATH = "F:\\275\\output\\";
+    static String FOLDER_PATH = "F:\\275\\server4\\";
 
     public BullyAlgo4(String operation) {
         this.operation = operation;
@@ -50,10 +51,11 @@ public class BullyAlgo4 implements Runnable{
     public static void main(String args[]) throws UnknownHostException, IOException, InterruptedException{
         initialize();
 
-        Server server = ServerBuilder.forPort(50054)
+        Server server = ServerBuilder.forPort(55140)
 //				.maxInboundMessageSize(FILE_SPLIT_UNIT)
 //				.maxInboundMetadataSize(Integer.MAX_VALUE)
-                .addService(new FileService())
+                .addService(new FileService4())
+                .addService(new MessageService())
                 .build();
 
         server.start();
@@ -376,6 +378,23 @@ public class BullyAlgo4 implements Runnable{
         processes_port.put(3,5513);
         processes_port.put(2,5514);
         processes_port.put(1,5515);
+
+        try {
+            File folder = new File(FOLDER_PATH);
+            File[] listOfFiles = folder.listFiles();
+
+            if (listOfFiles != null) {
+                for (int i = 0; i < listOfFiles.length; i++) {
+                    if (listOfFiles[i].isFile()) {
+                        files.add(listOfFiles[i].getName());
+                    } else if (listOfFiles[i].isDirectory()) {
+                        //                System.out.println("Directory " + listOfFiles[i].getName());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         InetAddress iAddress = InetAddress.getLocalHost();
 //        String server_name = iAddress.getHostName();
