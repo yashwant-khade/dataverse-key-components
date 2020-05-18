@@ -1,4 +1,4 @@
-package com.grpc.dataverse.file.client;
+package com.grpc.dataverse.download.client;
 
 import com.google.protobuf.ByteString;
 import com.proto.upload.FileRequest;

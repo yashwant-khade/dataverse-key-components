@@ -4,6 +4,9 @@ import com.proto.calculator.*;
 import io.grpc.stub.StreamObserver;
 
 public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServiceImplBase {
+
+
+
     @Override
     public StreamObserver<CalculateAverageRequest>
     computeAverage(StreamObserver<CalculateAverageResponse> responseObserver) {
@@ -54,6 +57,7 @@ public class CalculatorServiceImpl extends CalculatorServiceGrpc.CalculatorServi
             @Override
             public void onNext(FindMaximumRequest value) {
                 int currentNumber = value.getNumber();
+                System.out.println("recieved "+currentNumber);
                 if (currentNumber > maxNumber) {
                     maxNumber = currentNumber;
                     responseObserver.onNext(FindMaximumResponse.newBuilder().setMaxNumber(maxNumber).build());

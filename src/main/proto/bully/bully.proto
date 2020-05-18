@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package greet;
+
+option java_package = "com.proto.bully";
+option java_multiple_files = true;
+
+message Bully {
+    string bully_operation = 1;
+    string bully_reqtype = 2;
+}
+
+message BullyRequest {
+    string message = 1;
+}
+
+message BullyResponse {
+    string response_message= 1;
+}
+
+service BullyService {
+    rpc Greet(stream BullyRequest) returns (stream BullyResponse) {};
+}

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package download;
+
+
+option java_package = "com.proto.download";
+option java_multiple_files = true;
+
+message DownloadRequest {
+    string name = 1;
+}
+message DownloadResponse {
+    string name = 1;
+    bytes data = 2;
+    int64 id = 3;
+}
+service DownloadService {
+    rpc Download (DownloadRequest) returns (stream DownloadResponse);
+}
